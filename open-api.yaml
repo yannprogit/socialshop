@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: SocialShop
+  description: This API is an social network
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+tags:
+  - name: Login
+    description: To log in
+      
+paths:
+  /login:
+    post:
+      tags:
+        - Login
+      summary: To log in
+      description: Can log in
+      operationId: login
+      requestBody:
+        $ref: '#/components/requestBodies/logIn'
+      responses:
+        '200':
+          description: connected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token'          
+        '400':
+          $ref: '#/components/responses/errorArg' 
+        '401':
+          $ref: '#/components/responses/invalidPassword'
+        '404':
+          $ref: "#/components/responses/notFound"
+            
+components:
+  parameters:
+    idInPath:
+      name: 'id'
+      in: 'path'
+      required: true
+      schema:
+        type: integer
+        format: int64
+
+  requestBodies:
+    logIn:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - mail
+            - password
+            properties:
+              mail:
+                type: string
+                pattern: '^[\w\.-]+@[\w\.-]+\.\w+$'
+                example: "leau.ghine@gmail.com"
+              password:
+                type: string
+                example: "mdp"
+
+  schemas:
+    token:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6InlhY293YW4ua2VlYnJhZHlAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzAzMzk4MTI3LCJleHAiOjE3MDM0MDE3Mjd9.OOhvLQbg7G7S8LkzuYaTHf0vU_VP6q1zvJ3AuCd2N_g"
+          
+  responses:
+    notFound:
+      description: "The resource specified is not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "This ressource doesn't exist"
+    accessForbidden:
+      description: "You are not authorized to go on this road"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "Access forbidden: reason"
+    accessForbiddenLogged:
+      description: "You must be logged in to go on this road"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "Access forbidden: You must be logged in to do this"
+    errorArg:
+      description: "Error with args"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "Error your arg is incorrect"
+    errorProcess:
+      description: "Args correct but some requirements not met"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "Error this condition is incorrect"
+    invalidPassword:
+      description: "The password is incorrect"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "Password is incorrect"
+    errorPopDB:
+      description: "Error when populate db"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "Error populating database"
+    cannotGetData:
+      description: "Cannot get results of data from extern api"
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                type: boolean
+                default: false
+                example: false
+              message:
+                type: string
+                default: ""
+                example: "Cannot get results of extern data"
+                
+  securitySchemes:
+    JWT:
+      type: apiKey
+      in: header
+      name: Authorization
