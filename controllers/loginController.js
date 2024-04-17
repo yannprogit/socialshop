@@ -24,19 +24,20 @@ exports.authMiddleware = (allowedRoles) => (req, res, next) => {
 }
 
 exports.login = async (req, res) => {
-    user = await db.users.findOne({
+    let user = await db.users.findOne({
         where: {mail: req.body.mail}
     });
 
     if (user) {
-        const verifiedUser = await bcrypt.compare(req.body.password, user.password);
+        //let verifiedUser = await bcrypt.compare(req.body.password, user.password);
+        let verifiedUser = req.body.password == user.password;
         if (verifiedUser) {
-            const token = jwt.sign({ id: user.id, mail: user.mail }, process.env.secretKey, { expiresIn: '1h' });
+            const token = jwt.sign({ id: user.id, mail: user.mail }, process.env.secretKey);
             return res.status(200).json({ success: true, token });
         } else {
-            return res.status(401).json({success: false, message: 'Password is incorrect'});
+            return res.status(401).json({success: false, message: 'Mot de passe / Mail incorrecte'});;
         }
     } else {
-        return res.status(404).json({success: false, message: 'This user doesn\'t exists'});
+        return res.status(404).json({success: false, message: 'Mot de passe / Mail incorrecte'});
     }
 }

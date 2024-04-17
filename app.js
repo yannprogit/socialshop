@@ -24,6 +24,9 @@ app.use(
 const loginRouter = require('./routers/loginRouter.js');
 app.use('/login', loginRouter);
 
+const usersRouter = require('./routers/usersRouter.js');
+app.use('/users', usersRouter);
+
 app.use((error, req, res, next) => {
     console.log(error.message);
     res.status(error.status || 500).json({success: false, message: "Une erreur est survenue"});
