@@ -7,6 +7,9 @@ const bcrypt = require('bcrypt');
 //Add a user
 exports.addUser = async (req, res) => {
     let state = "active";
+    if (req.body.type=="company") {
+        state = "undergoing verification";
+    }
     const user = await addUser(req.body.name, req.body.mail, req.body.password, state, req.body.phone, req.body.description, req.body.date_birth, req.body.country, req.body.city, req.body.zip_code, req.body.address, req.body.address_supplement); //await bcrypt.hash(req.body.password, 10) pour plus tard
     if (user) {
         res.status(201).json({success: true, user: user});

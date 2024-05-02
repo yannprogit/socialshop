@@ -3,10 +3,10 @@ const db = require('../models/index');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 
-exports.authMiddleware = (allowedRoles) => (req, res, next) => {
+exports.authMiddleware = (req, res, next) => {
     const token = req.header('Authorization');
 
-    if (req.headers && !req.headers.authorization) {
+    if (!token) {
         return res.status(401).json({ success: false, message: 'Access forbidden: You must be logged in to do this' });
     }
 
@@ -16,9 +16,6 @@ exports.authMiddleware = (allowedRoles) => (req, res, next) => {
         }
 
         req.user = user;
-        if (!allowedRoles.includes(req.user.role)) {
-            return res.status(403).json({ success: false, message: 'Access forbidden: You are not allowed to do that with your role' });
-        }
         next();
     });
 }
@@ -32,7 +29,7 @@ exports.login = async (req, res) => {
         //let verifiedUser = await bcrypt.compare(req.body.password, user.password);
         let verifiedUser = req.body.password == user.password;
         if (verifiedUser) {
-            const token = jwt.sign({ id: user.id, mail: user.mail }, process.env.secretKey);
+            const token = jwt.sign({ idUser: user.idUser, mail: user.mail }, process.env.secretKey);
             return res.status(200).json({ success: true, token });
         } else {
             return res.status(401).json({success: false, message: 'Mot de passe / Mail incorrecte'});;
