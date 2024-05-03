@@ -4,13 +4,24 @@ const db = require('../models/index.js');
 //------------- Methods -------------
 
 exports.getProducts = async () => {
-    return await db.postes.findAll({
+    return await db.products.findAll({
         include: {
-          model: db.products,
-          attributes: ['price', 'description'],
+          model: db.postes,
+          attributes: ['title', 'idUser'],
           as: 'productsToPostes'
         }
       });
+}
+
+exports.getProduct = async (tag) => {
+    return await db.products.findOne({
+        where: { tag: tag },
+        include: {
+          model: db.postes,
+          attributes: ['title', 'idUser'],
+          as: 'productsToPostes'
+        }
+    });
 }
 
 exports.addProduct = async (idUser, title, price, description, stocks) => {
@@ -35,7 +46,14 @@ exports.addProduct = async (idUser, title, price, description, stocks) => {
             });
         }));
 
-        return poste.tag;
+        return await db.products.findOne({
+            where: { tag: tag },
+            include: {
+              model: db.postes,
+              attributes: ['title', 'idUser'],
+              as: 'productsToPostes'
+            }
+        });
 
     } catch (error) {
         console.log(error);
