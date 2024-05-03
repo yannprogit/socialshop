@@ -12,6 +12,7 @@ module.exports = {
     publications: require('../models/publicationsModel.js')(sequelize),
     stocks: require('../models/stocksModel.js')(sequelize),
     products: require('../models/productsModel.js')(sequelize),
+    likes: require('../models/likesModel.js')(sequelize),
 }
 
 //Define associations between models
@@ -29,3 +30,7 @@ sequelize.models.publications.belongsTo(sequelize.models.postes, { foreignKey: '
 
 //Postes
 sequelize.models.postes.belongsTo(sequelize.models.users, { foreignKey: 'idUser' , targetKey: 'idUser', as: 'postesToUser'});
+
+//Likes
+sequelize.models.likes.belongsTo(sequelize.models.users, { foreignKey: 'idUser' , targetKey: 'idUser', as: 'likeToUser'});
+sequelize.models.likes.belongsTo(sequelize.models.postes, { foreignKey: 'posteTag' , targetKey: 'tag', as: 'likeToPoste'});
