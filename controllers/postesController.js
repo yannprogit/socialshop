@@ -1,5 +1,5 @@
 //------------- Import -------------
-const { addProduct, getProducts } = require('../services/postesService.js');
+const { addProduct, getProducts, addImage } = require('../services/postesService.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -25,7 +25,8 @@ exports.addProductImages = async (req, res) => {
         if (!fs.existsSync(productFolder)) {
             fs.mkdirSync(productFolder, { recursive: true });
         }
-        const imageFilePath = path.join(productFolder, req.file.originalname);
+        const image = await addImage(productTag);
+        const imageFilePath = path.join(productFolder, image.num);
         fs.renameSync(req.file.path, imageFilePath);
         res.status(200).json({success: true});
     } else {

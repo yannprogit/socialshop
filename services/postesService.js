@@ -60,3 +60,15 @@ exports.addProduct = async (idUser, title, price, description, stocks) => {
         return false;
     }
 }
+
+exports.addImage = async (tag) => {
+    try {
+        return await db.images.create({
+            productTag: tag
+        });
+
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
