@@ -7,7 +7,7 @@ exports.addFavorite = async (req, res) => {
     if (favorite) {
         res.status(204).send();
     } else {
-        res.status(422).json({success: false, message: "Erreur lors du favorite"});
+        res.status(422).json({success: false, message: "Erreur lors du favori"});
     }
 }
 
@@ -16,6 +16,6 @@ exports.delFavorite = async (req, res) => {
     if (favorite) {
         res.status(204).send();
     } else {
-        res.status(422).json({success: false, message: "Erreur lors de la suppression du favorite"});
+        res.status(422).json({success: false, message: "Erreur lors de la suppression du favori"});
     }
 }

@@ -13,14 +13,69 @@ exports.getProducts = async () => {
       });
 }
 
+exports.delProduct = async (tag) => {
+    const delStocks = await db.stocks.destroy({
+        where: {
+          idProduct: tag
+        }
+      });
+    const delImages = await db.images.destroy({
+        where: {
+          productTag: tag
+        }
+      });
+    
+      const delProduct = await db.products.destroy({
+        where: {
+          tag
+        }
+      });
+
+    if (delImages&&delStocks&&delProduct) {
+        return await db.postes.destroy({
+            where: {
+              tag
+            }
+          });
+    } else {
+        return false;
+    }
+}
+
+exports.getStocks = async (tag) => {
+    return await db.stocks.findAll({
+        where: {
+          idProduct: tag
+        }
+      });
+}
+
+exports.getImages = async (tag) => {
+    return await db.images.findAll({
+        where: {
+          productTag: tag
+        }
+      });
+}
+
+exports.delImage = async (num) => {
+    return await db.images.destroy({
+        where: {
+          num
+        }
+      });
+}
+
 exports.getProduct = async (tag) => {
     return await db.products.findOne({
         where: { tag: tag },
-        include: {
-          model: db.postes,
-          attributes: ['title', 'idUser'],
-          as: 'productsToPostes'
-        }
+        include: [
+            {
+                model: db.postes,
+                attributes: ['title', 'idUser'],
+                as: 'productsToPostes'
+            },
+        ]
     });
 }
 

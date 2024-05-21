@@ -11,7 +11,7 @@ module.exports = {
     postes: require('../models/postesModel.js')(sequelize),
     publications: require('../models/publicationsModel.js')(sequelize),
     stocks: require('../models/stocksModel.js')(sequelize),
-    products: require('../models/productsModel.js')(sequelize),
+    products: require('../models/productsModel.js')(sequelize), 
     likes: require('../models/likesModel.js')(sequelize),
     images: require('../models/imagesModel.js')(sequelize),
 }
