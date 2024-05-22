@@ -30,6 +30,9 @@ app.use('/users', usersRouter);
 const postesRouter = require('./routers/postesRouter.js');
 app.use('/postes', postesRouter);
 
+const commentsRouter = require('./routers/commentsRouter.js');
+app.use('/comments', commentsRouter);
+
 app.use((error, req, res, next) => {
     console.log(error.message);
     res.status(error.status || 500).json({success: false, message: "Une erreur est survenue"});

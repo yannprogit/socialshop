@@ -69,5 +69,10 @@ exports.getStocks = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
     const product = await getProduct(req.params.tag);
-    res.status(200).json({success: true, data: product});
+    if (product) {
+        res.status(200).json({success: true, data: product});   
+    }
+    else {
+        res.status(404).json({success: false, message: "Ce produit n'existe pas"});   
+    }
 }
