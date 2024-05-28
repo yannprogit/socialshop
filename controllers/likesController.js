@@ -1,5 +1,5 @@
 //------------- Import -------------
-const { addLike, delLike } = require('../services/likesService.js');
+const { addLike, delLike, getLikes } = require('../services/likesService.js');
 
 //------------- Methods -------------
 exports.addLike = async (req, res) => {
@@ -19,3 +19,9 @@ exports.delLike = async (req, res) => {
         res.status(422).json({success: false, message: "Erreur lors de la suppression du like"});
     }
 }
+
+exports.getLikes = async (req, res) => {
+    const tag = req.params.tag;
+    const likeCount = await getLikes(tag);
+    res.status(200).json({ sucess: true, data: likeCount });
+};

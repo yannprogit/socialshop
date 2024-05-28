@@ -15,6 +15,7 @@ module.exports = {
     likes: require('../models/likesModel.js')(sequelize),
     images: require('../models/imagesModel.js')(sequelize),
     comments: require('../models/commentsModel.js')(sequelize),
+    favorites: require('../models/favoritesModel.js')(sequelize),
 }
 
 //Define associations between models
@@ -36,6 +37,10 @@ sequelize.models.postes.belongsTo(sequelize.models.users, { foreignKey: 'idUser'
 //Likes
 sequelize.models.likes.belongsTo(sequelize.models.users, { foreignKey: 'idUser' , targetKey: 'idUser', as: 'likeToUser'});
 sequelize.models.likes.belongsTo(sequelize.models.postes, { foreignKey: 'posteTag' , targetKey: 'tag', as: 'likeToPoste'});
+
+//Favorites
+sequelize.models.favorites.belongsTo(sequelize.models.users, { foreignKey: 'idUser' , targetKey: 'idUser', as: 'favoriteToUser'});
+sequelize.models.favorites.belongsTo(sequelize.models.postes, { foreignKey: 'posteTag' , targetKey: 'tag', as: 'favoriteToPoste'});
 
 //Images 
 sequelize.models.images.belongsTo(sequelize.models.products, { foreignKey: 'productTag' , targetKey: 'tag', as: 'imagesToProduct'});

@@ -10,7 +10,7 @@ exports.addLike = async (tag, id) => {
             idUser: id
         }
     });
-    if (like) {
+    if (!like) {
         return db.likes.create({
             posteTag: tag,
             idUser: id,
@@ -35,7 +35,7 @@ exports.delLike = async (tag, id) => {
             idUser: id
         }
     });
-    if (like) {
+    if (!like) {
         return db.likes.create({
             posteTag: tag,
             idUser: id,
@@ -51,4 +51,12 @@ exports.delLike = async (tag, id) => {
             }
         });
     }
+}
+
+exports.getLikes = async (tag) => {
+    return await db.likes.count({
+        where: {
+            posteTag: tag
+        }
+    });
 }

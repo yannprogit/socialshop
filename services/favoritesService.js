@@ -10,7 +10,7 @@ exports.addFavorite = async (tag, id) => {
             idUser: id
         }
     });
-    if (favorite) {
+    if (!favorite) {
         return db.favorites.create({
             posteTag: tag,
             idUser: id,
@@ -35,7 +35,7 @@ exports.delFavorite = async (tag, id) => {
             idUser: id
         }
     });
-    if (favorite) {
+    if (!favorite) {
         return db.favorites.create({
             posteTag: tag,
             idUser: id,
@@ -51,4 +51,13 @@ exports.delFavorite = async (tag, id) => {
             }
         });
     }
+}
+
+exports.getFavorite = async (idUser, tag) => {
+    return await db.favorites.findOne({
+        where: {
+            idUser: idUser,
+            posteTag: tag
+        }
+    });
 }

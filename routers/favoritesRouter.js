@@ -4,13 +4,9 @@ const favoriteController = require('../controllers/favoritesController');
 const { authMiddleware } = require('../controllers/loginController');
 
 //------------- Routes -------------
-router.post('favorite/products/:tag', authMiddleware, (req, res) => {
-    favoriteController.addFavorite(req, res);
-});
-
-router.post('del-favorite/products/:tag', authMiddleware, (req, res) => {
-    favoriteController.delFavorite(req, res);
-});
+router.post('/add/:tag', authMiddleware, favoriteController.addFavorite);
+router.post('/del/:tag', authMiddleware, favoriteController.delFavorite);
+router.get('/get/:tag', authMiddleware, favoriteController.getFavorite);
 
 
 module.exports = router;
