@@ -16,6 +16,13 @@ module.exports = {
     images: require('../models/imagesModel.js')(sequelize),
     comments: require('../models/commentsModel.js')(sequelize),
     favorites: require('../models/favoritesModel.js')(sequelize),
+    conversations: require('../models/conversationsModel.js')(sequelize),
+    signals: require('../models/signalsModel.js')(sequelize),
+    messages: require('../models/messagesModel.js')(sequelize),
+    medias: require('../models/mediasModel.js')(sequelize),
+    shares: require('../models/sharesModel.js')(sequelize),
+    subscribes: require('../models/subscribesModel.js')(sequelize),
+    texts: require('../models/textsModel.js')(sequelize),
 }
 
 //Define associations between models

@@ -25,7 +25,7 @@ exports.login = async (req, res) => {
         where: {mail: req.body.mail}
     });
 
-    if (user) {
+    if (user&&user.state!="undergoing verification") {
         //let verifiedUser = await bcrypt.compare(req.body.password, user.password);
         let verifiedUser = req.body.password == user.password;
         if (verifiedUser) {
